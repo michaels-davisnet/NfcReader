@@ -19,6 +19,7 @@ var app = {
 			app.display("NFC reader failed to initialize. Is NFC enabled? " + JSON.stringify(error));
 		}
 	},
+	
 	tag : function() {
 		app.clear();
 		app.display("Place your phone on MAIA");
@@ -56,15 +57,28 @@ var app = {
 				// TODO: Read BLE data from here
 				app.display("RSSI: " + device.rssi);
 				app.display("Battery: 56%");
-				app.display("Location: " );
 				app.display("Network Id: \"Davis Instruments\"");
 				app.display("Firmware: v0.01b");
+				app.watchLocation();
 			}, function () {
 				app.display("Failed to Connect");
 			});
 		}
 		function failure() {
 			app.display("Bluetooth Low Energy Error");
+		}
+	},
+	//Displays the current position in the message div:
+	watchLocation : function () {
+		// Calls the function navigator.geolocation... when parent function is called.
+		var watchId = navigator.geolocation.getCurrentPosition(onSuccess, onError, { enableHighAccuracy: true });
+		// Declare these functions inside the scope of watchLocation. These are utility functions, only available within the scope of watchLocation.
+		function onSuccess(position) {
+			app.display('Location: ' + position.coords.latitude.toFixed(2) + ', ' + position.coords.longitude.toFixed(2));
+		}
+		function onError(error) {
+			app.display(error.message);
+			app.display("Is GPS enabled?");
 		}
 	},
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
