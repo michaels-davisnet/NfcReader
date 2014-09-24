@@ -2,13 +2,35 @@
 
 <html>
    <head>
+		<style>
+			input {
+				margin-top: 10px;
+				margin-bottom: 10px;
+			}
+			.button {
+				display: inline-block;
+				padding: 10px;
+				min-width: 80px;
+				margin-top: 10px;
+				margin-bottom: 5px;
+				text-align: center;
+				background-color: #CCCCCC;
+				color: #000000;
+			}
+			select {
+				font-size: 1.25em;
+			}
+		</style>
       <title>NFC tag reader</title>
 	  <h1 style="text-align: center;"><span style="font-size:32px;">MAIA Control Panel</span></h1>
    </head>
-   <body style="font-size: 1.5em;background-color:#5079ef">
+   <body style="font-size: 1.5em;background-color:#FFFFFF;font-family:new century schoolbook">
 
       <div class="app">
-         <div id="messageDiv"></div>
+		 <div id="NfcRescan" align="center">
+			<h2 id="tagButton" class="button">New Device</h2>
+		 </div>
+		 <div id="messageDiv"></div>
       </div>
       <script type="text/javascript" src="cordova.js"></script>
      <script type="text/javascript" src="js/index.js"></script>

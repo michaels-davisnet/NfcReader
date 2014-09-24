@@ -4,19 +4,25 @@ var app = {
 	},
 	bindEvents : function () {
 		document.addEventListener('deviceready', this.onDeviceReady, false);
+		tagButton.addEventListener('click', app.tag, false);
 	},
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	MACaddress : "FA:22:C8:BB:93:0B",
 	onDeviceReady : function () {
 		// Params: event handler function, success callback, failure callback.
 		nfc.addMimeTypeListener("text/pan", app.onNfc, initSuccess, initError);
-		// TODO: NEED TO HANDLE OTHER NFC TYPES!
+		// TODO: Need to handle other nfc types.
 		function initSuccess(status) {
-			app.display("Place your phone on MAIA device");
+			app.display("Place your phone on MAIA");
 		}
 		function initError(error) {
 			app.display("NFC reader failed to initialize. Is NFC enabled? " + JSON.stringify(error));
 		}
+	},
+	tag : function() {
+		app.clear();
+		app.display("Place your phone on MAIA");
+		ble.disconnect(app.MACaddress);
 	},
 	onNfc : function (nfcEvent) {
 		app.clear();
@@ -39,13 +45,20 @@ var app = {
 			app.display("No NFC message");
 		}
 	},
+
 	bleConnect : function () {
-		app.display("Scanning for BLE connection");
+		app.display("Scanning for Bluetooth...");
 		ble.scan([], 5, scanned, failure);
 		function scanned(device) {
 			ble.connect(app.MACaddress, function () {
+				app.clear();
 				app.display("Connected to: " + device.name);
 				// TODO: Read BLE data from here
+				app.display("RSSI: " + device.rssi);
+				app.display("Battery: 56%");
+				app.display("Location: " );
+				app.display("Network Id: \"Davis Instruments\"");
+				app.display("Firmware: v0.01b");
 			}, function () {
 				app.display("Failed to Connect");
 			});
